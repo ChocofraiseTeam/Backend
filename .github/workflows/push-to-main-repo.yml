@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    types: [closed, merged]
-    branches:
-      - main
 
 jobs:
   mirror_to_main:
