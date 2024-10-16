@@ -1,0 +1,24 @@
+name: Mirror to Main Repo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  mirror_to_main:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout this repository
+      uses: actions/checkout@v2
+
+    - name: Configure Git
+      run: |
+        git config --global user.name "GitHub Action"
+        git config --global user.email "action@github.com"
+
+    - name: Push to main repo
+      run: |
+        git remote add main-repo ${{ secrets.MAIN_REPO_URL }}  # URL du dépôt principal
+        git push main-repo HEAD:refs/heads/${{ github.ref_name }}  # Pousse sur la même branche dans le dépôt principal
