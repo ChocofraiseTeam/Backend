@@ -22,5 +22,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.MAIN_REPO_TOKEN }}
         run: |
-          git remote add main-repo "https://$GITHUB_TOKEN@github.com/ChocofraiseTeam/Mainapp.git"
+          git remote add main-repo "https://${GITHUB_TOKEN}@github.com/ChocofraiseTeam/Mainapp.git"
           git push main-repo  # Push to the same branch in the main repo
