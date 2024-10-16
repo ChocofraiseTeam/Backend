@@ -10,17 +10,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout this repository
-      uses: actions/checkout@v2
+      - name: Checkout this repository
+        uses: actions/checkout@v2
 
-    - name: Configure Git
-      run: |
-        git config --global user.name "GitHub Action"
-        git config --global user.email "action@github.com"
+      - name: Configure Git
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "thomas.juin@epitech.eu"
 
-    - name: Push to main repo
-      env:
-        GITHUB_TOKEN: ${{ secrets.MAIN_REPO_TOKEN }}
-      run: |
-        git remote add main-repo https://x-access-token:${GITHUB_TOKEN}@github.com/ChocofraiseTeam/Mainapp.git
-        git push main-repo HEAD:refs/heads/${{ github.ref_name }}  # Pousse sur la même branche dans le dépôt principal
+      - name: Push to main repo
+        env:
+          GITHUB_TOKEN: ${{ secrets.MAIN_REPO_TOKEN }}
+        run: |
+          git remote add main-repo https://x-access-token:${GITHUB_TOKEN}@github.com/ChocofraiseTeam/Mainapp.git
+          git push main-repo HEAD:refs/heads/${{ github.ref_name }}  # Push to the same branch in the main repo
