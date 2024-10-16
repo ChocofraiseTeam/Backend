@@ -20,8 +20,8 @@ jobs:
 
       - name: Push to main repo
         env:
-          GITHUB_TOKEN: ${{ secrets.MAIN_REPO_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MIRROR }}
         run: |
-          git remote set-url --push origin https://x-access-token:${{ secrets.MAIN_REPO_TOKEN }}@github.com/ChocofraiseTeam/Mainapp.git
+          git remote set-url --push origin https://x-access-token:${{ GITHUB_TOKEN }}@github.com/ChocofraiseTeam/Mainapp.git
           git fetch -p origin
           git push --mirror
