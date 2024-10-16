@@ -19,6 +19,8 @@ jobs:
         git config --global user.email "action@github.com"
 
     - name: Push to main repo
-      run: |
-        git remote add main-repo ${{ secrets.MAIN_REPO_URL }}  # URL du dépôt principal
-        git push main-repo HEAD:refs/heads/${{ github.ref_name }}  # Pousse sur la même branche dans le dépôt principal
+    env:
+      GITHUB_TOKEN: ${{ secrets.MAIN_REPO_TOKEN }}
+    run: |
+      git remote add main-repo https://x-access-token:${GITHUB_TOKEN}@github.com/ChocofraiseTeam/Mainapp.git
+      git push main-repo HEAD:refs/heads/${{ github.ref_name }}  # Pousse sur la même branche dans le dépôt principal
