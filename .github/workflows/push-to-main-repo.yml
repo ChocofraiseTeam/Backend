@@ -26,6 +26,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.MIRROR }}
         run: |
-          git remote set-url --push origin https://${GITHUB_TOKEN}@github.com/ChocofraiseTeam/Mainapp.git
+          git remote set-url --push origin https://${{ secrets.MIRROR }}@github.com/ChocofraiseTeam/Mainapp.git
           git fetch -p origin
           git push --mirror
