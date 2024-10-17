@@ -44,4 +44,4 @@ jobs:
 
     - name: Push to central repository
       run: |
-        git push https://{{$secrets.MainRepoToken}}@github.com/ChocofraiseTeam/Mainapp.git main
+        git push
