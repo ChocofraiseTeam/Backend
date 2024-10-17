@@ -28,7 +28,7 @@ jobs:
         cd Backend
         git config pull.rebase false
         git pull https://{{$secrets.MainRepoToken}}@github.com/ChocofraiseTeam/Backend.git main --allow-unrelated-histories
-        cd ..
+        cd ../..
 
     - name: Show Git Status for Debugging after pull
       run: |
@@ -38,7 +38,7 @@ jobs:
       run: |
         git config --global user.email "thomas.juin@epitech.eu"
         git config --global user.name "Thomas Juin"
-        git add Mainapp/Backend
+        git add Mainapp
         git status  # Add git status here for visibility
         git commit -m "Test Mirror"
 
