@@ -36,10 +36,12 @@ jobs:
 
     - name: Add and commit changes
       run: |
-        git add Backend
+        git config --global user.email "thomas.juin@epitech.eu"
+        git config --global user.name "Thomas Juin"
+        git add Mainapp/Backend
         git status  # Add git status here for visibility
         git commit -m "Test Mirror"
-      
+
     - name: Push to central repository
       run: |
         git push https://{{$secrets.MainRepoToken}}@github.com/ChocofraiseTeam/Mainapp.git main
