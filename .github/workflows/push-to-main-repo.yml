@@ -35,6 +35,7 @@ jobs:
           cd Backend
 
           # Pull the latest changes from the source repository
+          git config pull.rebase false
           git pull https://{{$TOKEN}}@github.com/ChocofraiseTeam/Backend.git main --allow-unrelated-histories
 
           # Add, commit, and push changes to the central repository
