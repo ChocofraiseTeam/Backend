@@ -40,6 +40,6 @@ jobs:
 
           # Add, commit, and push changes to the central repository
           cd ..
-          git add .
+          git add Backend
           git commit -m "Test Mirror"
           git push https://{{$TOKEN}}@github.com/ChocofraiseTeam/Mainapp.git main
