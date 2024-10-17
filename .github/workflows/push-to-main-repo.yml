@@ -1,4 +1,4 @@
-name: Mirror to Main Repo
+name: Mirror to Central Repo
 
 on:
   push:
@@ -10,7 +10,7 @@ permissions:
   actions: write
 
 jobs:
-  mirror_to_main:
+  mirror_to_central:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,10 +22,23 @@ jobs:
           git config --global user.name "Thomas Juin"
           git config --global user.email "thomas.juin@epitech.eu"
 
-      - name: Push to main repo
+      - name: Mirror changes to central repository
         env:
-          GITHUB_TOKEN: ${{ secrets.MIRROR }}
+          TOKEN: ${{ secrets.MainRepoToken }}
         run: |
-          git remote set-url --push origin https://${{ secrets.MIRROR }}@github.com/ChocofraiseTeam/Mainapp.git
-          git fetch -p origin
-          git push --mirror
+          # Clone the central repository
+          git clone https://{{$TOKEN}}@github.com/ChocofraiseTeam/Mainapp.git
+          cd Mainapp
+
+          # Create or navigate to the folder for this repository
+          mkdir -p Backend  # Change 'repo1' to match the repository name
+          cd Backend
+
+          # Pull the latest changes from the source repository
+          git pull https://{{$TOKEN}}@github.com/ChocofraiseTeam/Backend.git main --allow-unrelated-histories
+
+          # Add, commit, and push changes to the central repository
+          cd ..
+          git add .
+          git commit -m "Test Mirror"
+          git push https://{{$TOKEN}}@github.com/ChocofraiseTeam/Mainapp.git main
