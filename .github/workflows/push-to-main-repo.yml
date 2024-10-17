@@ -1,45 +1,45 @@
-name: Mirror to Central Repo
+name: Push Changes to Main Repo
 
 on:
   push:
     branches:
       - main
 
-permissions:
-  contents: write
-  actions: write
-
 jobs:
-  mirror_to_central:
+  push-main:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout this repository
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      - name: Configure Git
-        run: |
-          git config --global user.name "Thomas Juin"
-          git config --global user.email "thomas.juin@epitech.eu"
+    - name: Clone the central repository
+      run: |
+        git clone https://{{$secrets.MainRepoToken}}@github.com/ChocofraiseTeam/Mainapp.git
+        cd Mainapp
 
-      - name: Mirror changes to central repository
-        env:
-          TOKEN: ${{ secrets.MainRepoToken }}
-        run: |
-          # Clone the central repository
-          git clone https://{{$TOKEN}}@github.com/ChocofraiseTeam/Mainapp.git
-          cd Mainapp
+    - name: Show Git Status for Debugging
+      run: |
+        git status
 
-          # Create or navigate to the folder for this repository
-          mkdir -p Backend  # Change 'repo1' to match the repository name
-          cd Backend
+    - name: Create Backend folder and pull changes
+      run: |
+        mkdir -p Backend
+        cd Backend
+        git config pull.rebase false
+        git pull https://{{$secrets.MainRepoToken}}@github.com/ChocofraiseTeam/Backend.git main --allow-unrelated-histories
+        cd ..
 
-          # Pull the latest changes from the source repository
-          git config pull.rebase false
-          git pull https://{{$TOKEN}}@github.com/ChocofraiseTeam/Backend.git main --allow-unrelated-histories
+    - name: Show Git Status for Debugging after pull
+      run: |
+        git status
 
-          # Add, commit, and push changes to the central repository
-          cd ..
-          git add Backend
-          git commit -m "Test Mirror"
-          git push https://{{$TOKEN}}@github.com/ChocofraiseTeam/Mainapp.git main
+    - name: Add and commit changes
+      run: |
+        git add Backend
+        git status  # Add git status here for visibility
+        git commit -m "Test Mirror"
+      
+    - name: Push to central repository
+      run: |
+        git push https://{{$secrets.MainRepoToken}}@github.com/ChocofraiseTeam/Mainapp.git main
