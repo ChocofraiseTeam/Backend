@@ -11,7 +11,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v5
 
     - name: Setup SSH
       run: |
@@ -22,18 +22,35 @@ jobs:
         eval "$(ssh-agent -s)"  # Start the SSH agent
         ssh-add ~/.ssh/id_rsa    # Add the SSH key
 
-    - name: Push to central repository
+    - name: Clone the central repository
       run: |
-        git clone git@github.com:ChocofraiseTeam/Mainapp.git
+        git clone git@github.com:ChocofraiseTeam/Mainapp.git Mainapp
         cd Mainapp
 
-        mkdir -p Backend
-        cd Backend
-        git pull git@github.com:ChocofraiseTeam/Backend.git main --allow-unrelated-histories
-        cd ..
+    - name: Pull/Add Backend repository as a subtree
+      working-directory: Mainapp
+      run: |
+        if [ -d "Backend" ]; then
+          git subtree pull --prefix=Backend git@github.com:ChocofraiseTeam/Backend.git main --squash
+        else
+          git subtree add --prefix=Backend git@github.com:ChocofraiseTeam/Backend.git main --squash
+        fi
+
+    - name: Show Git Status for Debugging after subtree pull/add
+      working-directory: Mainapp
+      run: |
+        git status
+
+    - name: Add and commit changes
+      working-directory: Mainapp
+      run: |
         git config --global user.email "thomas.juin@epitech.eu"
         git config --global user.name "Thomas Juin"
         git add Backend
         git status
-        git commit -m "Test Mirror"
-        git push git@github.com:ChocofraiseTeam/Mainapp.git main
+        git commit -m "Subtree Sync for Backend"
+
+    - name: Push to central repository
+      working-directory: Mainapp
+      run: |
+        git push origin main
