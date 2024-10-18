@@ -31,7 +31,6 @@ jobs:
     - name: Clone the central repository
       run: |
         git clone git@github.com:ChocofraiseTeam/Mainapp.git Mainapp
-        cd Mainapp
 
     - name: Pull/Add Backend repository as a subtree
       working-directory: Mainapp
@@ -48,5 +47,6 @@ jobs:
         git status
 
     - name: Push to central repository
+      working-directory: Mainapp
       run: |
         git push origin main
