@@ -47,14 +47,6 @@ jobs:
       run: |
         git status
 
-    - name: Add and commit changes
-      working-directory: Mainapp
-      run: |
-        git add Backend
-        git status
-        git commit -m "Subtree Sync for Backend"
-
     - name: Push to central repository
-      working-directory: Mainapp
       run: |
         git push origin main
