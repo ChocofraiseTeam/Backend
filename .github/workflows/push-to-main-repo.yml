@@ -37,7 +37,7 @@ jobs:
 
     - name: Show Git Status for Debugging after pull
       run: |
-        git status 
+        git status
 
     - name: Add and commit changes
       run: |
