@@ -13,6 +13,12 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+
+    - name: Setup Git
+      run: |
+        git config --global user.email "thomas.juin@epitech.eu"
+        git config --global user.name "Thomas Juin"
+
     - name: Setup SSH
       run: |
         mkdir -p ~/.ssh
@@ -44,8 +50,6 @@ jobs:
     - name: Add and commit changes
       working-directory: Mainapp
       run: |
-        git config --global user.email "thomas.juin@epitech.eu"
-        git config --global user.name "Thomas Juin"
         git add Backend
         git status
         git commit -m "Subtree Sync for Backend"
