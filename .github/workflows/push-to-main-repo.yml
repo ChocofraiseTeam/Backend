@@ -27,12 +27,10 @@ jobs:
         git clone git@github.com:ChocofraiseTeam/Mainapp.git
         cd Mainapp
 
-    - name: Create Backend folder and pull changes
+    - name: Clone Backend repository into the Backend folder
       run: |
         mkdir -p Backend
-        cd Backend
-        git config pull.rebase false
-        git pull git@github.com:ChocofraiseTeam/Backend.git main --allow-unrelated-histories
+        git clone git@github.com:ChocofraiseTeam/Backend.git Backend
         cd ..
 
     - name: Show Git Status for Debugging after pull
