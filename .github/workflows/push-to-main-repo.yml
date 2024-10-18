@@ -1,3 +1,10 @@
+name: Push Changes to Main Repo
+
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   push-main:
     runs-on: ubuntu-latest
