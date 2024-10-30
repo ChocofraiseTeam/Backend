@@ -1,5 +1,4 @@
-on:
-  workflow_dispatch: # Manual trigger
+on: workflow_dispatch # Manual trigger
 
 jobs:
   push-main:
