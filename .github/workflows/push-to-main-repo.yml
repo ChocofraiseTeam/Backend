@@ -1,52 +1,38 @@
-name: Push Changes to Main Repo
-
-on:
-  push:
-    branches:
-      - main
+on: workflow_dispatch # Manual trigger
 
 jobs:
   push-main:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    - name: Checkout Backend
       uses: actions/checkout@v4
 
-
-    - name: Setup Git
-      run: |
-        git config --global user.email "thomas.juin@epitech.eu"
-        git config --global user.name "Thomas Juin"
-
-    - name: Setup SSH
+    - name: Setup SSH for Mainapp
       run: |
         mkdir -p ~/.ssh
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan github.com >> ~/.ssh/known_hosts
-        eval "$(ssh-agent -s)"  # Start the SSH agent
-        ssh-add ~/.ssh/id_rsa    # Add the SSH key
+        eval "$(ssh-agent -s)"
+        ssh-add ~/.ssh/id_rsa
 
-    - name: Clone the central repository
+    - name: Clone Mainapp
       run: |
         git clone git@github.com:ChocofraiseTeam/Mainapp.git Mainapp
 
-    - name: Pull/Add Backend repository as a subtree
+    - name: Add Backend as a Remote and Fetch Changes
       working-directory: Mainapp
       run: |
-        if [ -d "Backend" ]; then
-          git subtree pull --prefix=Backend git@github.com:ChocofraiseTeam/Backend.git main --squash
-        else
-          git subtree add --prefix=Backend git@github.com:ChocofraiseTeam/Backend.git main --squash
-        fi
+        git remote add Backend git@github.com:ChocofraiseTeam/Backend.git
+        git fetch Backend main
 
-    - name: Show Git Status for Debugging after subtree pull/add
+    - name: Merge Backend Changes into Mainapp
       working-directory: Mainapp
       run: |
-        git status
+        git merge --no-ff Backend/main -m "Merge changes from Backend to Mainapp"
 
-    - name: Push to central repository
+    - name: Commit and Push Changes to Mainapp
       working-directory: Mainapp
       run: |
         git push origin main
